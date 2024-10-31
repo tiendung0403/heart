@@ -4,7 +4,7 @@ var settings = {
     duration: 2,
     velocity: 100,
     effect: -0.75,
-    size: 30,
+    size: 30,// Giảm từ 30 xuống 20 để làm trái tim nhỏ hơn
   },
 };
 
@@ -173,16 +173,27 @@ var ParticlePool = (function () {
     time;
 
   // get point on heart with -PI <= t <= PI
+  // function pointOnHeart(t) {
+  //   return new Point(
+  //     160 * Math.pow(Math.sin(t), 3),
+  //     130 * Math.cos(t) -
+  //       50 * Math.cos(2 * t) -
+  //       20 * Math.cos(3 * t) -
+  //       10 * Math.cos(4 * t) +
+  //       25
+  //   );
+  // }
   function pointOnHeart(t) {
     return new Point(
-      160 * Math.pow(Math.sin(t), 3),
-      130 * Math.cos(t) -
-        50 * Math.cos(2 * t) -
-        20 * Math.cos(3 * t) -
-        10 * Math.cos(4 * t) +
-        25
+      120 * Math.pow(Math.sin(t), 3),  // Giảm từ 160 xuống 120
+      100 * Math.cos(t) -              // Giảm từ 130 xuống 100
+        40 * Math.cos(2 * t) -         // Giảm từ 50 xuống 40
+        15 * Math.cos(3 * t) -         // Giảm từ 20 xuống 15
+        8 * Math.cos(4 * t) +          // Giảm từ 10 xuống 8
+        20                             // Giữ nguyên hoặc tùy chỉnh nhỏ hơn
     );
   }
+  
 
   // creating the particle image using a dummy canvas
   var image = (function () {
@@ -193,11 +204,13 @@ var ParticlePool = (function () {
     // helper function to create the path
     function to(t) {
       var point = pointOnHeart(t);
-      point.x =
-        settings.particles.size / 2 + (point.x * settings.particles.size) / 350;
-      point.y =
-        settings.particles.size / 2 - (point.y * settings.particles.size) / 350;
+      point.x = settings.particles.size / 2 + (point.x * settings.particles.size) / 350;
+      point.y = settings.particles.size / 2 - (point.y * settings.particles.size) / 350;
+      // point.x = settings.particles.size / 2 + (point.x * settings.particles.size) / 500; // Thay 350 thành 500
+      // point.y = settings.particles.size / 2 - (point.y * settings.particles.size) / 500; // Thay 350 thành 500
+
       return point;
+      
     }
     // create the path
     context.beginPath();
